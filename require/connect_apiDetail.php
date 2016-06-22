@@ -37,4 +37,27 @@ $data = array (
     $PO = "[";
     $sub = explode(":[",$output);
     $PO .= substr($sub[1],0,-1);
+
+
+    $out_w=json_decode($PO,true);
+
+$result = array();
+$all_prouct="";
+$all_tableP="";
+$SumPrice=0;
+foreach ($out_w as $row) {
+  $result[$row['poNo']]['poNo'] = $row['poNo'];
+  $result[$row['poNo']]['apCode'] = $row['apCode'];
+  $result[$row['poNo']]['apName'] = $row['apName'];
+  $result[$row['poNo']]['poAmount'] = $row['poAmount'];
+  
+}
+  $result = array_values($result);
+      $sort = array();
+      foreach ($result as $k => $v) {
+    $sort['poNo'][$k] = $v['poNo'];
+    $sort['apCode'][$k] = $v['apCode'];
+    $sort['apName'][$k] = $v['apName'];
+    $sort['poAmount'][$k] = $v['poAmount'];
+    }
     ?>

@@ -108,4 +108,52 @@ $data = array (
 
        // }
        // echo "</table>";
+
+
+          $out_w=json_decode($POdetail,true);
+
+        $Dresult = array();
+        //$Dcnt=0;
+        foreach ($out_w as $row) {
+          $Dresult[$row['itemCode']]['itemCode'] = $row['itemCode'];
+          $Dresult[$row['itemCode']]['docDate'] = $row['docDate'];
+          $Dresult[$row['itemCode']]['apCode'] = $row['apCode'];
+          $Dresult[$row['itemCode']]['apName'] = $row['apName'];
+          $Dresult[$row['itemCode']]['myDescription'] = $row['myDescription'];
+          $Dresult[$row['itemCode']]['docNo'] = $row['docNo'];
+          $Dresult[$row['itemCode']]['itemName'] = $row['itemName'];
+          $Dresult[$row['itemCode']]['qty'] = $row['qty'];
+          $Dresult[$row['itemCode']]['unitCode'] = $row['unitCode'];
+          $Dresult[$row['itemCode']]['price'] = $row['price'];
+          $Dresult[$row['itemCode']]['discountWord'] = $row['discountWord'];
+          $Dresult[$row['itemCode']]['discountAmount'] = $row['discountAmount'];
+          $Dresult[$row['itemCode']]['whCode'] = $row['whCode'];
+          $Dresult[$row['itemCode']]['shelfCode'] = $row['shelfCode'];
+          $Dresult[$row['itemCode']]['netAmount'] = $row['netAmount'];
+          $Dresult[$row['itemCode']]['oldPrice'] = $row['oldPrice'];
+          $Dresult[$row['itemCode']]['oldDiscountWord'] = $row['oldDiscountWord'];
+          //$Dcnt+=1;
+          
+        }
+          $Dresult = array_values($Dresult);
+              $deSort = array();
+              foreach ($Dresult as $k => $v) {
+              $deSort['itemCode'][$k] = $v['itemCode']; 
+              $deSort['docDate'][$k] = $v['docDate'];
+              $deSort['apCode'][$k] = $v['apCode'];
+              $deSort['apName'][$k] = $v['apName'];
+              $deSort['myDescription'][$k] = $v['myDescription'];
+              @$deSort['docNo'][$k] = $v['docNo'];
+              $deSort['itemName'][$k] = $v['itemName'];
+              $deSort['qty'][$k] = $v['qty'];
+              $deSort['unitCode'][$k] = $v['unitCode'];
+              $deSort['price'][$k] = $v['price'];
+              $deSort['discountWord'][$k] = $v['discountWord'];
+              $deSort['discountAmount'][$k] = $v['discountAmount'];
+              $deSort['whCode'][$k] = $v['whCode'];
+              $deSort['shelfCode'][$k] = $v['shelfCode'];
+              $deSort['netAmount'][$k] = $v['netAmount'];
+              $deSort['oldPrice'][$k] = $v['oldPrice'];
+              $deSort['oldDiscountWord'][$k] = $v['oldDiscountWord'];
+            }
     ?>

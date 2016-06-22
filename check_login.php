@@ -59,9 +59,9 @@ setcookie('levelID', $out['levelID'],time()+3600*24*356);
 setcookie('expertTeam', $out['expertTeam'],time()+3600*24*356);
 setcookie('status', "1",time()+3600*24*356); 
 
-echo "<script>alert('Login สำเร็จ')</script>";
+//echo "<script>alert('Login สำเร็จ')</script>";
 
-echo "<script>window.location='Po_all.php'</script>";
+echo "<script>window.location='PO_all.php'</script>";
 
 }else if($out["resp"]["success"]==""){
 	if(empty($_COOKIE['userID'])){

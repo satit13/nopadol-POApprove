@@ -63,7 +63,7 @@ echo '<div id="header"></div>';
 <div id="form-main">
 
   <div id="form-div">
-  <img src="images/approve-icon1.png".png" class="img ">
+  <img src="images/approve-icon1.png" class="img ">
     <form class="form" name="login" method='POST' id="theForm" action="check_login.php" onSubmit="return cnklogin()">
       
       <p class="username">

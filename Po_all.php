@@ -13,6 +13,7 @@ else{
     $cate=$_SESSION['expertTeam'];
   }else{
     $cate=$_GET['cate'];
+    $_SESSION['experTeam']=$_GET['cate'];
   }
 
 /*
@@ -23,16 +24,38 @@ else{
 <!DOCTYPE html>
 <html>
 <head>
+<title>Approve PO</title> 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">-->
+<script src="js/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<link rel="stylesheet" href="css/style.css">
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
 
+<!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+<script>
+  $(window).load(function() { // makes sure the whole site is loaded
+  //$('#status').fadeOut(); // will first fade out the loading animation
+  $('#preloader').fadeOut('slow'); // will fade out the white DIV that covers the website.
+  $('body').css({
+    'overflow': 'visible'
+  });
+})
+
+
+</script>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
+
 
 <div data-role="page" id="pageone">
 
@@ -142,12 +165,16 @@ require('require/connect_apiExpertteam.php');
 </div>
 <script>
   function select_cate(cate){
-   window.location="Po_all.php?cate="+cate.value;    
+   
+   window.location="Po_all.php?cate="+cate.value;
+
   }
+
+  
 
 </script>
 <table border="0" style="padding: 0; margin: 0 auto;" width="50%"><tr>
-  <form>        
+  <form action="<?php echo "Po_all.php?cate=".trim($cate); ?>">        
     <td align="right" width="80%"><div class='line'><input type="search" name="search" data-role="none" data-shadow="true" placeholder="NO apCode (รหัสเจ้าหนี้)" style="height: 35px; width: 80%; border-radius: 9px; display: block;"></div></td>
     <td align="left" width="20%"><button type="submit" data-inline="true" data-mini="true">Search</button></td>
   </form>   
@@ -159,6 +186,10 @@ require('require/connect_apiExpertteam.php');
 if(empty($_GET['search'])){
     $_GET['search']="";
 }
+/*echo $userID."<br>";
+echo "team : ".$cate."<br>";
+echo $levelID."<br>";
+echo "search :".$_GET['search'];*/
 
 require("require/connect_apiDetail.php");
 if($PO=="[]"){
@@ -167,32 +198,14 @@ echo "<div style='width:100%; text-align:center;'><h1>ไม่มีข้อ�
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
-$out_w=json_decode($PO,true);
 
-$result = array();
-$all_prouct="";
-$all_tableP="";
-$SumPrice=0;
-foreach ($out_w as $row) {
-  $result[$row['poNo']]['poNo'] = $row['poNo'];
-  $result[$row['poNo']]['apCode'] = $row['apCode'];
-  $result[$row['poNo']]['apName'] = $row['apName'];
-  $result[$row['poNo']]['poAmount'] = $row['poAmount'];
-  
-}
-  $result = array_values($result);
-      $sort = array();
-      foreach ($result as $k => $v) {
-    $sort['poNo'][$k] = $v['poNo'];
-    $sort['apCode'][$k] = $v['apCode'];
-    $sort['apName'][$k] = $v['apName'];
-    $sort['poAmount'][$k] = $v['poAmount'];
-    }
     //array_multisort($sort['billAmount'],SORT_DESC,$sort['itemName'],SORT_ASC,$result);
 
     $cnt=count($result);
    /* echo "<script>alert($cnt)</script>"*/;
 echo "<form action='approve.php' method='GET'>";
+echo "<input type='hidden' name='cate' value='".trim($cate)."'>";
+echo "<table width='95%'><tr><th></th><th>เลขที่ PO </th><th>ชื่อเจ้าหนี้</th><th align='right'>ราคารวม </th><th></th></tr></table>";
     for($i=0;$i<$cnt;$i++){
 
         $str=$sort['apName'][$i];
@@ -233,7 +246,7 @@ echo "<form action='approve.php' method='GET'>";
 
 <?php
  
-for($a=0;$a<5;$a++){
+for($a=0;$a<$cnt;$a++){
    require("require/connect_apiPOdetail.php");
 
 if(isset($sort['poNo'][$a])){$no=$sort['poNo'][$a];}
@@ -249,72 +262,29 @@ else{$no="";}
   <div data-role="main" class="ui-content">
   <div class='head'></div>
     <?php
-     $out_w=json_decode($POdetail,true);
-
-        $Dresult = array();
-        //$Dcnt=0;
-        foreach ($out_w as $row) {
-          $Dresult[$row['itemCode']]['itemCode'] = $row['itemCode'];
-          $Dresult[$row['itemCode']]['docDate'] = $row['docDate'];
-          $Dresult[$row['itemCode']]['apCode'] = $row['apCode'];
-          $Dresult[$row['itemCode']]['apName'] = $row['apName'];
-          $Dresult[$row['itemCode']]['myDescription'] = $row['myDescription'];
-          $Dresult[$row['itemCode']]['docNo'] = $row['docNo'];
-          $Dresult[$row['itemCode']]['itemName'] = $row['itemName'];
-          $Dresult[$row['itemCode']]['qty'] = $row['qty'];
-          $Dresult[$row['itemCode']]['unitCode'] = $row['unitCode'];
-          $Dresult[$row['itemCode']]['price'] = $row['price'];
-          $Dresult[$row['itemCode']]['discountWord'] = $row['discountWord'];
-          $Dresult[$row['itemCode']]['discountAmount'] = $row['discountAmount'];
-          $Dresult[$row['itemCode']]['whCode'] = $row['whCode'];
-          $Dresult[$row['itemCode']]['shelfCode'] = $row['shelfCode'];
-          $Dresult[$row['itemCode']]['netAmount'] = $row['netAmount'];
-          $Dresult[$row['itemCode']]['oldPrice'] = $row['oldPrice'];
-          $Dresult[$row['itemCode']]['oldDiscountWord'] = $row['oldDiscountWord'];
-          //$Dcnt+=1;
-          
-        }
-          $Dresult = array_values($Dresult);
-              $deSort = array();
-              foreach ($Dresult as $k => $v) {
-              $deSort['itemCode'][$k] = $v['itemCode']; 
-              $deSort['docDate'][$k] = $v['docDate'];
-              $deSort['apCode'][$k] = $v['apCode'];
-              $deSort['apName'][$k] = $v['apName'];
-              $deSort['myDescription'][$k] = $v['myDescription'];
-              @$deSort['docNo'][$k] = $v['docNo'];
-              $deSort['itemName'][$k] = $v['itemName'];
-              $deSort['qty'][$k] = $v['qty'];
-              $deSort['unitCode'][$k] = $v['unitCode'];
-              $deSort['price'][$k] = $v['price'];
-              $deSort['discountWord'][$k] = $v['discountWord'];
-              $deSort['discountAmount'][$k] = $v['discountAmount'];
-              $deSort['whCode'][$k] = $v['whCode'];
-              $deSort['shelfCode'][$k] = $v['shelfCode'];
-              $deSort['netAmount'][$k] = $v['netAmount'];
-              $deSort['oldPrice'][$k] = $v['oldPrice'];
-              $deSort['oldDiscountWord'][$k] = $v['oldDiscountWord'];
-            }
+   // echo $cnt;
+   
         //$Dcnt = count($CDresult);
         //echo $Dcnt;
         //echo '<br>'.$Dcnt;
         
+
         echo "<table class='ui-responsive'>";
         echo "<tr><td>เลขที่ PO</td><td colspan='9'>".$deSort['docNo'][0]."</td></tr>";
         echo "<tr><td>รหัสเจ้าหนี้</td><td colspan='9'>".$deSort['apCode'][0]."</td></tr>";
         echo "<tr><td>ชื่อเจ้าหนี้</td><td colspan='9'>".$deSort['apName'][0]."</td></tr>";
         echo "<tr><td>วันที่</td><td colspan='9'>".$deSort['docDate'][0]."</td></tr>";
-        echo "<tr><td>MyDescription</td><td colspan='9'>".$deSort['myDescription'][0]."</td></tr>";
+        echo "<tr><td>MyDescription</td><td colspan='9'>".$deSort['myDescription'][0]."</td></tr>";       
 
         $Dcnt = count($Dresult);
         $SPN = 0;
         $SPO = 0;
-        for($f=0;$f<$Dcnt;$f++){
-        $SPN += $deSort['netAmount'][$f];
-        $SPO += $deSort['oldPrice'][$f];
+        for($l=0;$l<$Dcnt;$l++){
+        $SPN += $deSort['netAmount'][$l];
+        $SPO += $deSort['oldPrice'][$l];
         }
-        echo "<tr><td>ราคารวมใบ PO ใหม่ </td><td colspan='9'>".number_format($SPN,2)." บาท</td></tr>";
-        echo "<tr><td>ราคารวมใบ PO เก่า</td><td colspan='9'>".number_format($SPO,2)." บาท</td></tr>";
+        echo "<tr><td>ราคารวมใบ PO </td><td colspan='9'>".number_format($SPN,2)." บาท</td></tr>";
+        echo "<tr><td>จำนวนสินค้า</td><td colspan='9'>".$Dcnt." รายการ</td></tr>";
         echo "</table><hr width='90%'><table data-role='table' class='ui-responsive' id='myTable'>
         <thead>
         <tr>
@@ -322,10 +292,10 @@ else{$no="";}
         <th data-priority='9'>ชื่อสิค้า</th>
         <th data-priority='8'>จำนวน</th>
         <th data-priority='7'>ราคา</th>
+        <th data-priority='7'>ราคาซื้อล่าสุด</th>
         <th data-priority='6'>ส่วนลด</th>
         <th data-priority='5'>ส่วนลดเก่า</th>
         <th data-priority='4'>ราคารวม</th>
-        <th data-priority='3'>ราคาเก่า</th>
         <th data-priority='2'>คลัง</th>
         <th data-priority='1'>ชั้นเก็บ</th>
         <th>รายละเอียดสินค้า</th>
@@ -336,7 +306,7 @@ else{$no="";}
        
        for($f=0;$f<$Dcnt;$f++){
 
-        echo "<tr style='border-bottom:1px dashed green; padding-top:5%;'><td>".$deSort['itemCode'][$f]."</td><td>".$deSort['itemName'][$f]."</td><td>".$deSort['qty'][$f]."&nbsp;&nbsp;".$deSort['unitCode'][$f]."</td><td>".number_format($deSort['price'][$f],2)."</td><td>".$deSort['discountWord'][$f]."</td><td>".$deSort['oldDiscountWord'][$f]."</td><td>".number_format($deSort['netAmount'][$f],2)."</td><td>".number_format($deSort['oldPrice'][$f],2)."</td><td>".$deSort['whCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td><td align='center'><a href='#pagethree' class='ui-btn ui-btn-inline ui-icon-search ui-btn-icon-notext ui-corner-all ui-shadow'></td></tr>";
+        echo "<tr style='border-bottom:1px dashed green; padding-top:5%;'><td>".$deSort['itemCode'][$f]."</td><td>".$deSort['itemName'][$f]."</td><td>".$deSort['qty'][$f]."&nbsp;&nbsp;".$deSort['unitCode'][$f]."</td><td>".number_format($deSort['price'][$f],2)."</td><td>".number_format($deSort['oldPrice'][$f],2)."</td><td>".$deSort['discountWord'][$f]."</td><td>".$deSort['oldDiscountWord'][$f]."</td><td>".number_format($deSort['netAmount'][$f],2)."</td><td>".$deSort['whCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td><td align='center'><a href='#pagethree".$deSort['itemCode'][$f]."' class='ui-btn ui-btn-inline ui-icon-search ui-btn-icon-notext ui-corner-all ui-shadow'></td></tr>";
         }
         echo "</tbody></table>";
     $doc=$deSort['docNo'][0];
@@ -352,113 +322,125 @@ else{$no="";}
     
   </div>
   </div>
-  <?php
-  echo '<div data-role="page" id="pagethree">'?>
+
+</div>
+</div>
+</div> 
+
+<?php
+ for($b=0;$b<$Dcnt;$b++){
+  require("require/connect_apiPOlist.php");
+
  
- <div data-role="header" style="vertical-align: middle; padding: 0;" id="header">
- <a href="#pagetwo" class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext" style="margin-top: 0.8%; margin-left: 1%;"></a>
-   <a href="logout.php" class="ui-btn ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-right" style="margin-top: 0.8%; margin-right: 1%;"></a>
-  </div>
-
-  <div data-role="main" class="ui-content">
-  <div class='head'></div>
-    <?php
-     $out_w=json_decode($POdetail,true);
-
-        $Dresult = array();
-        //$Dcnt=0;
-        foreach ($out_w as $row) {
-          $Dresult[$row['itemCode']]['itemCode'] = $row['itemCode'];
-          $Dresult[$row['itemCode']]['docDate'] = $row['docDate'];
-          $Dresult[$row['itemCode']]['apCode'] = $row['apCode'];
-          $Dresult[$row['itemCode']]['apName'] = $row['apName'];
-          $Dresult[$row['itemCode']]['myDescription'] = $row['myDescription'];
-          $Dresult[$row['itemCode']]['docNo'] = $row['docNo'];
-          $Dresult[$row['itemCode']]['itemName'] = $row['itemName'];
-          $Dresult[$row['itemCode']]['qty'] = $row['qty'];
-          $Dresult[$row['itemCode']]['unitCode'] = $row['unitCode'];
-          $Dresult[$row['itemCode']]['price'] = $row['price'];
-          $Dresult[$row['itemCode']]['discountWord'] = $row['discountWord'];
-          $Dresult[$row['itemCode']]['discountAmount'] = $row['discountAmount'];
-          $Dresult[$row['itemCode']]['whCode'] = $row['whCode'];
-          $Dresult[$row['itemCode']]['shelfCode'] = $row['shelfCode'];
-          $Dresult[$row['itemCode']]['netAmount'] = $row['netAmount'];
-          $Dresult[$row['itemCode']]['oldPrice'] = $row['oldPrice'];
-          $Dresult[$row['itemCode']]['oldDiscountWord'] = $row['oldDiscountWord'];
-          //$Dcnt+=1;
-          
-        }
-          $Dresult = array_values($Dresult);
-              $deSort = array();
-              foreach ($Dresult as $k => $v) {
-              $deSort['itemCode'][$k] = $v['itemCode']; 
-              $deSort['docDate'][$k] = $v['docDate'];
-              $deSort['apCode'][$k] = $v['apCode'];
-              $deSort['apName'][$k] = $v['apName'];
-              $deSort['myDescription'][$k] = $v['myDescription'];
-              @$deSort['docNo'][$k] = $v['docNo'];
-              $deSort['itemName'][$k] = $v['itemName'];
-              $deSort['qty'][$k] = $v['qty'];
-              $deSort['unitCode'][$k] = $v['unitCode'];
-              $deSort['price'][$k] = $v['price'];
-              $deSort['discountWord'][$k] = $v['discountWord'];
-              $deSort['discountAmount'][$k] = $v['discountAmount'];
-              $deSort['whCode'][$k] = $v['whCode'];
-              $deSort['shelfCode'][$k] = $v['shelfCode'];
-              $deSort['netAmount'][$k] = $v['netAmount'];
-              $deSort['oldPrice'][$k] = $v['oldPrice'];
-              $deSort['oldDiscountWord'][$k] = $v['oldDiscountWord'];
-            }
         //$Dcnt = count($CDresult);
         //echo $Dcnt;
         //echo '<br>'.$Dcnt;
-        
         echo "<table class='ui-responsive'>";
-        echo "<tr><td align='right'><b>รหัสสินค้า</b></td><td colspan='9'>".$deSort['docNo'][0]."</td></tr>";
-        echo "<tr><td align='right'><b>ชื่อสินค้า</b></td><td colspan='9'>".$deSort['apCode'][0]."</td></tr>";
-        echo "<tr><td align='right'><b>เลขที่</b></td><td colspan='9'>".$deSort['apName'][0]."</td></tr>";
-        echo "<tr><td align='right'><b>สถานะ</b></td><td colspan='9'>".$deSort['docDate'][0]."</td></tr>";
-        echo "<tr><td align='right'><b>GP </b></td><td colspan='9'>".$deSort['myDescription'][0]."</td></tr>";
-        echo "<tr><td align='right'><b>ยอดเงินสด</b></td><td colspan='9'>".$deSort['docDate'][0]."</td></tr></table><hr width='90%'>";
+        echo "<tr><td><b>รหัสสินค้า</b></td><td colspan='9'>".$listsort['itemCode'][0]."</td></tr>";
+        echo "<tr><td><b>ชื่อสินค้า</b></td><td colspan='9'>".$listsort['itemName'][0]."</td></tr>";
+        echo "<tr><td>เ<b>ลขที่ PO </b></td><td colspan='9'>".$listsort['poNo'][0]."</td></tr>";
+        echo "<tr><td><b>สถานะ</b></td><td colspan='9'>".$listsort['itemStatus'][0]."</td></tr>";
+        echo "<tr><td><b>GP </b></td><td colspan='9'>".round($listsort['gp'][0],2)." %</td></tr>";
+        echo "<tr><td><b>ราคาขายเงินสด</b></td><td colspan='9'>".number_format($listsort['saleAmount'][0], 2 )." บาท</td></tr>";
+        echo "</table><hr width='90%'>";
+
+        echo "<table class='ui-responsive'>";
+        echo "<tr><td width='40%' style='text-align:right;'><b>จำนวนเสนอซื้อ</b></td><td>".number_format($listsort['reqQty'][0])." ".$listsort['unitCode'][0]."</td></tr>";        
+        echo "<tr><td width='40%' style='text-align:right;'><b>Ajust Qty</b></td> <td>".number_format($listsort['adjustQty'][0])."  ".$listsort['defSaleUnit'][0]."</td></tr>";
+        echo "<tr><td width='40%' style='text-align:right;'><b>Approve QTY</b></td><td>".number_format($listsort['approveQty'][0])."  ".$listsort['defBuyUnit'][0]."</td></tr>";
+        echo "<tr><td width='40%' style='text-align:right;'><b>เกรด</b></td><td>".$listsort['grade'][0]."</td></tr>";
+        echo "<tr><td width='40%' style='text-align:right;'><b>คงเหลือ S1</b></td><td>";
+
+        echo '<script>
+                  $(document).ready(function(){
+                      $("#ts1'.$iCode.'").click(function(){
+                          $("#s1'.$iCode.'").slideToggle("slow");
+                      });
+                      $("#ts2'.$iCode.'").click(function(){
+                          $("#s2'.$iCode.'").slideToggle("slow");
+                      });
+                  });
+                </script>';
+
+        echo "<a href='#' id='ts1".$iCode."'><b><font color='red'>".number_format($listsort['s01RemainQty'][0])."</font></b></a><div id='s1".$iCode."' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
+        $s01wh = $listsort['s01WH'][0];
+        $s02wh = $listsort['s02WH'][0];
+
+          $s01 = array();
         
-        echo "<table data-role='table' class='ui-responsive' id='myTable'>
-        <thead>
-        <tr align='right'>
-        <th>เสนอซื้อ</th>
-        <th>Adjust Qty</th>
-        <th>Approve Qty</th>
-        <th>เกรด</th>
-        <th>คงเหลือ S01</th>
-        <th>คงเหลือ S02</th>
-        <th>ค้างรับ S01</th>
-        <th>ค้างรับ S02</th>
-        <th>ขายย้อนหลัง 3 เดือน S01</th>
-        <th>ขายย้อนหลัง 3 เดือน S02</th>
-        <th>ขายเฉลี่ยต่อเดือนจากยอดย้อนหลัง 3 เดือน S01</th>
-        <th>ขายเฉลี่ยต่อเดือนจากยอดย้อนหลัง 3 เดือน S02</th>
-        <th>จำนวนบิลต่อเดือน S01</th>
-        <th>จำนวนบิลต่อเดือน S02</th>
-        </tr>
-        </thead>";
-       echo "<tbody>";
-       // echo $DCt;
-        $Dcnt = count($Dresult);
-       for($f=0;$f<$Dcnt;$f++){
-        echo "<tr style='border-bottom:1px dashed green; padding-top:5%;'><td>".$deSort['itemCode'][$f]."</td><td>".$deSort['itemName'][$f]."</td><td>".$deSort['qty'][$f]."&nbsp;&nbsp;".$deSort['unitCode'][$f]."</td><td>".number_format($deSort['price'][$f],2)."</td><td>".$deSort['discountWord'][$f]."</td><td>".$deSort['oldDiscountWord'][$f]."</td><td>".number_format($deSort['netAmount'][$f],2)."</td><td>".number_format($deSort['oldPrice'][$f],2)."</td><td>".$deSort['whCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td></tr>";
+        //$Dcnt=0;
+        foreach ($s01wh as $r) {
+          $s01[$r['whCode']]['whCode'] = $r['whCode'];
+          $s01[$r['whCode']]['qty'] = $r['qty'];
         }
-        echo "</tbody></table>";
-    $doc=$deSort['docNo'][0];
-    $ap=$deSort['apCode'][0];
+        $s01 = array_values($s01);
+              $s01sort = array();
+              foreach ($s01 as $k => $v) {
+              @$s01sort['whCode'][$k] = $v['whCode']; 
+              @$s01sort['qty'][$k] = $v['qty'];
+            }
+        $cnts1=count($s01);
+        for($s1=0;$s1<$cnts1;$s1++){
+          if($s01sort['qty'][$s1]!=0){
+          echo "<tr style='background-color:#fff;'><td>".$s01sort['whCode'][$s1]."</td><td>".number_format($s01sort['qty'][$s1])."</td></tr>";
+          }
+        }
+        echo "</table></div></td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>คงเหลือ S2</b></td>";
+
+        echo "<td><a href='#' id='ts2".$iCode."'><b><font color='red'>".number_format($listsort['s02RemainQty'][0])."</font></b></a><div id='s2".$iCode."' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
+          $s02 = array();
+        
+        //$Dcnt=0;
+        foreach ($s02wh as $r) {
+          $s02[$r['whCode']]['whCode'] = $r['whCode'];
+          $s02[$r['whCode']]['qty'] = $r['qty'];
+        }
+        $s02 = array_values($s02);
+              $s02sort = array();
+              foreach ($s02 as $k => $v) {
+              @$s02sort['whCode'][$k] = $v['whCode']; 
+              @$s02sort['qty'][$k] = $v['qty'];
+            }
+        $cnts2=count($s02);
+        for($s2=0;$s2<$cnts2;$s2++){
+          if($s02sort['qty'][$s2]!=0){
+            echo "<tr style='background-color:#fff;'><td>".$s02sort['whCode'][$s2]."</td><td>".number_format($s02sort['qty'][$s2])."</td></tr>";
+          }
+        }
+        echo "</table></div></td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>ค้างรับ S1</b></td><td>".number_format($listsort['s01RemainInQty'][0])."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>ค้างรับ S2</b></td><td>".number_format($listsort['s02RemainInQty'][0])."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>ขายย้อนหลัง 3 เดือน S1</b></td><td>".number_format($listsort['s01Sale'][0],2)."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>ขายย้อนหลัง 3 เดือน S2</b></td><td>".number_format($listsort['s02Sale'][0],2)."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>ขายเฉลี่ยย้อนหลัง 3 เดือน S1</b></td><td>".number_format($listsort['s01AvgSale'][0],2)." %</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>ขายเฉลี่ยย้อนหลัง 3 เดือน S2</b></td><td>".number_format($listsort['s02AvgSale'][0],2)." %</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>จำนวนบิล/เดือน S1</b></td><td>".number_format($listsort['s01BillMonth'][0])."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>จำนวนบิล/เดือน S2</b></td><td>".number_format($listsort['s02BillMonth'][0])."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>หน่วยนับสินค้า</b></td><td>".$listsort['unitCode'][0]."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>หน่วยนับขายสินค้า</b></td><td>".$listsort['defSaleUnit'][0]."</td></tr>
+        <tr><td width='40%' style='text-align:right;'><b>หน่วยนับซื้อสินค้า</b></td><td>".$listsort['defBuyUnit'][0]."</td></tr>";
+        echo "</table>";       
     ?>
         
   </div>
 </div>
 
 
+</div>
+</div>
+</div> 
+
 <?php
+   } 
   }
 }
 ?>
 
+
+<div id="loader-wrapper">
+    <div id="loader"></div>
+</div>
+</div>
 </body>
 </html>
