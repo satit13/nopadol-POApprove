@@ -30,37 +30,41 @@ else{
 <script src="js/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
+<link rel="stylesheet" href="css/style.css">
 <script>
-  $(window).load(function() { // makes sure the whole site is loaded
+  /*$(window).load(function() { // makes sure the whole site is loaded
   //$('#status').fadeOut(); // will first fade out the loading animation
   $('#preloader').fadeOut('slow'); // will fade out the white DIV that covers the website.
   $('body').css({
     'overflow': 'visible'
   });
 })
-
-
+$(window).ready(function() {
+    $('#loading').hide();
+});*/
+$(document).ready(function () {
+  $('#loading').hide();
+});
 </script>
-<link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 
-<div id="preloader">
-  <div id="status">&nbsp;</div>
-</div>
+
 
 
 <div data-role="page" id="pageone">
 
+
    <div data-role="header" style="vertical-align: middle; padding: 0;" id="header">
  <!--<a href='list.php' class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext" style="margin-top: 0.8%; margin-left: 1%;"></a>!-->
+
+  <div class="user"><?php echo $userID.":".$_COOKIE['expertTeam']; ?></div>
   <a href="logout.php" class="ui-btn ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-right" style="margin-top: 0.8%; margin-right: 1%;"></a>
    <!--<a href="setting/setting.php" class="ui-btn ui-corner-all ui-icon-gear ui-btn-icon-notext ui-btn-left" style="margin-top: 0.8%; margin-left: 1%;"></a>!-->
   </div>
@@ -68,6 +72,8 @@ else{
 <!--////////////////////////////  content ////////////////////////////////!-->
 <div class="ui-content">
 <div class='head'></div>
+
+
 <div style="width:50%; margin: auto; text-align: center;">
 <?php
 
@@ -100,8 +106,9 @@ require('require/connect_apiExpertteam.php');
      $Ct = count($result);
   
   if(trim($_SESSION['expertTeam'])=="CATDR"){
+    echo "<h1 class='expert'>กรุณาเลือก expertTeam ที่ต้องการ</h1><hr class='hr'>";
   echo "<div  class='Cateselect'>";
-        echo "<h1 class='expert'>กรุณาเลือก expertTeam ที่ต้องการ</h1><hr class='hr'>";
+        
         echo "<select name='cate' data-native-menu='false' onchange='return select_cate(this)' class='selest_expert'>";
         echo "<option value=''>เลือก ExpertTeam </option>";
 
@@ -163,6 +170,7 @@ require('require/connect_apiExpertteam.php');
 ?>
 
 </div>
+
 <script>
   function select_cate(cate){
    
@@ -193,19 +201,26 @@ echo "search :".$_GET['search'];*/
 
 require("require/connect_apiDetail.php");
 if($PO=="[]"){
+if($cate=="CATDR"){
 
-echo "<div style='width:100%; text-align:center;'><h1>ไม่มีข้อมูล".$cate."</h1></div>";
+echo "<div style='width:100%; text-align:center;'><h1>กรุณาเลือก cat</h1></div>";
+}else{echo "<div style='width:100%; text-align:center;'><h1>ไม่มีข้อมูล ".$cate."</h1></div>";}
 
-}
+
+}else{
+  echo '<h1 class="title_po">แสดงรายการ PO ทั้งหมด</h1>';
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
     //array_multisort($sort['billAmount'],SORT_DESC,$sort['itemName'],SORT_ASC,$result);
 
-    $cnt=count($result);
+    
    /* echo "<script>alert($cnt)</script>"*/;
 echo "<form action='approve.php' method='GET'>";
 echo "<input type='hidden' name='cate' value='".trim($cate)."'>";
-echo "<table width='95%'><tr><th></th><th>เลขที่ PO </th><th>ชื่อเจ้าหนี้</th><th align='right'>ราคารวม </th><th></th></tr></table>";
+echo "<table width='95%' class='table_head'><tr><th></th><th>เลขที่ PO </th><th>ชื่อเจ้าหนี้</th><th align='right'>ราคารวม </th><th></th></tr></table>";
+}
+
+$cnt=count($result);
     for($i=0;$i<$cnt;$i++){
 
         $str=$sort['apName'][$i];
@@ -240,8 +255,11 @@ echo "<table width='95%'><tr><th></th><th>เลขที่ PO </th><th>ชื�
 
 
 </div>
+
+
+
 </div>
-</div> 
+
 
 
 <?php
@@ -255,6 +273,7 @@ else{$no="";}
  echo '<div data-role="page" id="pagetwo'.$no.'">'?>
  
  <div data-role="header" style="vertical-align: middle; padding: 0;" id="header">
+  <div class="user"><?php echo $userID.":".$_COOKIE['expertTeam']; ?></div>
  <a href="#pageone" class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext" style="margin-top: 0.8%; margin-left: 1%;"></a>
    <a href="logout.php" class="ui-btn ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-right" style="margin-top: 0.8%; margin-right: 1%;"></a>
   </div>
@@ -262,6 +281,8 @@ else{$no="";}
   <div data-role="main" class="ui-content">
   <div class='head'></div>
     <?php
+
+    echo '<h1 class="title_po">แสดงรายละเอียด PO เลขที่ '.$deSort['docNo'][0].'</h1>';
    // echo $cnt;
    
         //$Dcnt = count($CDresult);
@@ -306,8 +327,19 @@ else{$no="";}
        
        for($f=0;$f<$Dcnt;$f++){
 
-        echo "<tr style='border-bottom:1px dashed green; padding-top:5%;'><td>".$deSort['itemCode'][$f]."</td><td>".$deSort['itemName'][$f]."</td><td>".$deSort['qty'][$f]."&nbsp;&nbsp;".$deSort['unitCode'][$f]."</td><td>".number_format($deSort['price'][$f],2)."</td><td>".number_format($deSort['oldPrice'][$f],2)."</td><td>".$deSort['discountWord'][$f]."</td><td>".$deSort['oldDiscountWord'][$f]."</td><td>".number_format($deSort['netAmount'][$f],2)."</td><td>".$deSort['whCode'][$f]."</td><td>".$deSort['shelfCode'][$f]."</td><td align='center'><a href='#pagethree".$deSort['itemCode'][$f]."' class='ui-btn ui-btn-inline ui-icon-search ui-btn-icon-notext ui-corner-all ui-shadow'></td></tr>";
+        echo "<tr style='border-bottom:1px dashed green; padding-top:5%;'>
+        <td>".$deSort['itemCode'][$f]."</td><td>".$deSort['itemName'][$f]."</td>
+        <td>".$deSort['qty'][$f]."&nbsp;&nbsp;".$deSort['unitCode'][$f]."</td>
+        <td>".number_format($deSort['price'][$f],2)."</td>
+        <td>".number_format($deSort['oldPrice'][$f],2)."</td>
+        <td>".$deSort['discountWord'][$f]."</td>
+        <td>".$deSort['oldDiscountWord'][$f]."</td>
+        <td>".number_format($deSort['netAmount'][$f],2)."</td>
+        <td>".$deSort['whCode'][$f]."</td>
+        <td>".$deSort['shelfCode'][$f]."</td>
+        <td align='center'><a href='#'  onClick='window.location=\"item_detail.php?itemcode=".$deSort['itemCode'][$f]."&cate=".$cate.'&pono='.$deSort['docNo'][0]."\"' class='ui-btn ui-btn-inline ui-icon-search ui-btn-icon-notext ui-corner-all ui-shadow'></td></tr>";
         }
+       //onclick="return confirm(\'ต้องการลบรูปภาพนี้หรือไม่ ?\');" 
         echo "</tbody></table>";
     $doc=$deSort['docNo'][0];
     $ap=$deSort['apCode'][0];
@@ -326,103 +358,6 @@ else{$no="";}
 </div>
 </div>
 </div> 
-
-<?php
- for($b=0;$b<$Dcnt;$b++){
-  require("require/connect_apiPOlist.php");
-
- 
-        //$Dcnt = count($CDresult);
-        //echo $Dcnt;
-        //echo '<br>'.$Dcnt;
-        echo "<table class='ui-responsive'>";
-        echo "<tr><td><b>รหัสสินค้า</b></td><td colspan='9'>".$listsort['itemCode'][0]."</td></tr>";
-        echo "<tr><td><b>ชื่อสินค้า</b></td><td colspan='9'>".$listsort['itemName'][0]."</td></tr>";
-        echo "<tr><td>เ<b>ลขที่ PO </b></td><td colspan='9'>".$listsort['poNo'][0]."</td></tr>";
-        echo "<tr><td><b>สถานะ</b></td><td colspan='9'>".$listsort['itemStatus'][0]."</td></tr>";
-        echo "<tr><td><b>GP </b></td><td colspan='9'>".round($listsort['gp'][0],2)." %</td></tr>";
-        echo "<tr><td><b>ราคาขายเงินสด</b></td><td colspan='9'>".number_format($listsort['saleAmount'][0], 2 )." บาท</td></tr>";
-        echo "</table><hr width='90%'>";
-
-        echo "<table class='ui-responsive'>";
-        echo "<tr><td width='40%' style='text-align:right;'><b>จำนวนเสนอซื้อ</b></td><td>".number_format($listsort['reqQty'][0])." ".$listsort['unitCode'][0]."</td></tr>";        
-        echo "<tr><td width='40%' style='text-align:right;'><b>Ajust Qty</b></td> <td>".number_format($listsort['adjustQty'][0])."  ".$listsort['defSaleUnit'][0]."</td></tr>";
-        echo "<tr><td width='40%' style='text-align:right;'><b>Approve QTY</b></td><td>".number_format($listsort['approveQty'][0])."  ".$listsort['defBuyUnit'][0]."</td></tr>";
-        echo "<tr><td width='40%' style='text-align:right;'><b>เกรด</b></td><td>".$listsort['grade'][0]."</td></tr>";
-        echo "<tr><td width='40%' style='text-align:right;'><b>คงเหลือ S1</b></td><td>";
-
-        echo '<script>
-                  $(document).ready(function(){
-                      $("#ts1'.$iCode.'").click(function(){
-                          $("#s1'.$iCode.'").slideToggle("slow");
-                      });
-                      $("#ts2'.$iCode.'").click(function(){
-                          $("#s2'.$iCode.'").slideToggle("slow");
-                      });
-                  });
-                </script>';
-
-        echo "<a href='#' id='ts1".$iCode."'><b><font color='red'>".number_format($listsort['s01RemainQty'][0])."</font></b></a><div id='s1".$iCode."' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
-        $s01wh = $listsort['s01WH'][0];
-        $s02wh = $listsort['s02WH'][0];
-
-          $s01 = array();
-        
-        //$Dcnt=0;
-        foreach ($s01wh as $r) {
-          $s01[$r['whCode']]['whCode'] = $r['whCode'];
-          $s01[$r['whCode']]['qty'] = $r['qty'];
-        }
-        $s01 = array_values($s01);
-              $s01sort = array();
-              foreach ($s01 as $k => $v) {
-              @$s01sort['whCode'][$k] = $v['whCode']; 
-              @$s01sort['qty'][$k] = $v['qty'];
-            }
-        $cnts1=count($s01);
-        for($s1=0;$s1<$cnts1;$s1++){
-          if($s01sort['qty'][$s1]!=0){
-          echo "<tr style='background-color:#fff;'><td>".$s01sort['whCode'][$s1]."</td><td>".number_format($s01sort['qty'][$s1])."</td></tr>";
-          }
-        }
-        echo "</table></div></td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>คงเหลือ S2</b></td>";
-
-        echo "<td><a href='#' id='ts2".$iCode."'><b><font color='red'>".number_format($listsort['s02RemainQty'][0])."</font></b></a><div id='s2".$iCode."' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
-          $s02 = array();
-        
-        //$Dcnt=0;
-        foreach ($s02wh as $r) {
-          $s02[$r['whCode']]['whCode'] = $r['whCode'];
-          $s02[$r['whCode']]['qty'] = $r['qty'];
-        }
-        $s02 = array_values($s02);
-              $s02sort = array();
-              foreach ($s02 as $k => $v) {
-              @$s02sort['whCode'][$k] = $v['whCode']; 
-              @$s02sort['qty'][$k] = $v['qty'];
-            }
-        $cnts2=count($s02);
-        for($s2=0;$s2<$cnts2;$s2++){
-          if($s02sort['qty'][$s2]!=0){
-            echo "<tr style='background-color:#fff;'><td>".$s02sort['whCode'][$s2]."</td><td>".number_format($s02sort['qty'][$s2])."</td></tr>";
-          }
-        }
-        echo "</table></div></td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>ค้างรับ S1</b></td><td>".number_format($listsort['s01RemainInQty'][0])."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>ค้างรับ S2</b></td><td>".number_format($listsort['s02RemainInQty'][0])."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>ขายย้อนหลัง 3 เดือน S1</b></td><td>".number_format($listsort['s01Sale'][0],2)."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>ขายย้อนหลัง 3 เดือน S2</b></td><td>".number_format($listsort['s02Sale'][0],2)."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>ขายเฉลี่ยย้อนหลัง 3 เดือน S1</b></td><td>".number_format($listsort['s01AvgSale'][0],2)." %</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>ขายเฉลี่ยย้อนหลัง 3 เดือน S2</b></td><td>".number_format($listsort['s02AvgSale'][0],2)." %</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>จำนวนบิล/เดือน S1</b></td><td>".number_format($listsort['s01BillMonth'][0])."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>จำนวนบิล/เดือน S2</b></td><td>".number_format($listsort['s02BillMonth'][0])."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>หน่วยนับสินค้า</b></td><td>".$listsort['unitCode'][0]."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>หน่วยนับขายสินค้า</b></td><td>".$listsort['defSaleUnit'][0]."</td></tr>
-        <tr><td width='40%' style='text-align:right;'><b>หน่วยนับซื้อสินค้า</b></td><td>".$listsort['defBuyUnit'][0]."</td></tr>";
-        echo "</table>";       
-    ?>
-        
   </div>
 </div>
 
@@ -432,15 +367,13 @@ else{$no="";}
 </div> 
 
 <?php
-   } 
+    
   }
 }
 ?>
 
+</div>
 
-<div id="loader-wrapper">
-    <div id="loader"></div>
-</div>
-</div>
+<div id="loading"></div>
 </body>
 </html>
