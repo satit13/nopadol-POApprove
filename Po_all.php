@@ -63,7 +63,11 @@ $(document).ready(function () {
 
    <div data-role="header" style="vertical-align: middle; padding: 0;" id="header">
  <!--<a href='list.php' class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext" style="margin-top: 0.8%; margin-left: 1%;"></a>!-->
+<?php
+ if(isset($_GET['search'])){
 
+echo "<a href='#'  onClick='window.location=\"Po_all.php?cate=".$cate."\"'class='ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext' style='margin-top: 0.8%; margin-left: 1%;'></a>";
+}?>
   <div class="user"><?php echo $userID.":".$_COOKIE['expertTeam']; ?></div>
   <a href="logout.php" class="ui-btn ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-right" style="margin-top: 0.8%; margin-right: 1%;"></a>
    <!--<a href="setting/setting.php" class="ui-btn ui-corner-all ui-icon-gear ui-btn-icon-notext ui-btn-left" style="margin-top: 0.8%; margin-left: 1%;"></a>!-->
@@ -73,7 +77,7 @@ $(document).ready(function () {
 <div class="ui-content">
 <div class='head'></div>
 
-
+<h1 class='expert' style="text-align: center;">กรุณาเลือก expertTeam ที่ต้องการ</h1><hr class='hr'>
 <div style="width:50%; margin: auto; text-align: center;">
 <?php
 
@@ -106,7 +110,7 @@ require('require/connect_apiExpertteam.php');
      $Ct = count($result);
   
   if(trim($_SESSION['expertTeam'])=="CATDR"){
-    echo "<h1 class='expert'>กรุณาเลือก expertTeam ที่ต้องการ</h1><hr class='hr'>";
+    
   echo "<div  class='Cateselect'>";
         
         echo "<select name='cate' data-native-menu='false' onchange='return select_cate(this)' class='selest_expert'>";
@@ -204,7 +208,7 @@ if($PO=="[]"){
 if($cate=="CATDR"){
 
 echo "<div style='width:100%; text-align:center;'><h1>กรุณาเลือก cat</h1></div>";
-}else{echo "<div style='width:100%; text-align:center;'><h1>ไม่มีข้อมูล ".$cate."</h1></div>";}
+}else{echo "<div class='no_po' style='text-align:center;'><h1>ไม่มีข้อมูลใบ PO ของ ".$cate."</h1></div>";}
 
 
 }else{
