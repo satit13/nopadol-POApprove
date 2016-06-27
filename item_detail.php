@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="css/style.css">
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
+<title>Approve PO</title> 
 
 <script>
   /*$(window).load(function() { // makes sure the whole site is loaded
