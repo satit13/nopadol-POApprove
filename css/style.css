@@ -582,6 +582,11 @@ border: 1px solid red;
 }
 
 /*////  ของฮา จอเล็ก /////*/
+.no_po{
+width:100%;  
+font-size: 10px;
+
+}
 .user{
 	font-size: 10px;
 	font-style: inherit;
@@ -767,7 +772,7 @@ width:80%;
 }
 h1.expert{
 	font-size:18px;
-	margin-top:15%;
+	margin-top:5%;
 	}
 
 }
