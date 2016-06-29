@@ -1,14 +1,14 @@
 body{
-	font-family: "Times New Roman", Times, serif;
+  	font-family: sans-serif;
 	background: #f5f4f0;
-	color: #000;
+	color: #000 !important;
 }
 .user{
 	font-size: 14px;
 	font-style: inherit;
 	float: right;
 	margin:3% 3% 0 0;
-	color: #000;
+	color: #ccc;
 
 }
 .title_item{
@@ -17,6 +17,7 @@ text-align:center;
 }
 .title_po{
 text-align:center;
+-webkit-text-fill-color:#000;
 }
 a:link {
     text-decoration: none;
@@ -54,13 +55,13 @@ a:active {
 	height:70px;
 	position:fixed;
 	z-index: 9999;
-	background-color: #32CD32;
+	background-color: #0089d1;
 	color:#FFF;
 	top: 0;
 	left:0;
-	background:url(../images/header.png) no-repeat #32CD32 10px;
-	background-size:30%;
-	background-position: center; 
+	background:url(../images/logo_n.png) no-repeat #0089d1 5px;
+	background-size:10%;
+	background-position: left 70px top 10px; 
 
 }
 .clear{clear:both;}
@@ -75,7 +76,7 @@ a:active {
 	float:right;
 	width: 48px;
 	height: 48px;
-	background:url(../images/change_user.png) no-repeat center 5%;
+	background:url(../images/change_user_b.png) no-repeat center 5%;
 	background-size:140%;
 	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
@@ -89,7 +90,7 @@ a:active {
 }
 
 .selest_expert{
-	background:32cd32;
+	background:0089d1;
 	width:50%;
 	}
 .search_po{height: 35px; width: 80%; border-radius: 9px; display: block;}
@@ -221,11 +222,9 @@ a.logout{
 width:70%;
 margin: 15% auto;
 	
+
 	}
-	
-	@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
-
-
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 #feedback-page{
 	text-align:center;
@@ -240,7 +239,7 @@ margin: 15% auto;
 
 #form-div {
 	background-color:rgba(99,99,99,0.1);
-	padding:35px 120px 10px 120px;
+	padding:10px 120px 10px 120px;
 	width: 60%;
 	margin:auto;
   -moz-border-radius: 7px;
@@ -268,7 +267,7 @@ margin: 15% auto;
 .feedback-input:focus{
 	background: #fff;
 	box-shadow: 0;
-	border: 3px solid #32CD32;
+	border: 3px solid #0089d1;
 	color: #3498db;
 	outline: none;
   padding: 13px 13px 13px 54px;
@@ -312,20 +311,22 @@ margin: 15% auto;
 
 input:hover, textarea:hover,
 input:focus, textarea:focus {
-	background-color:#98ff98;
+	background-color:#74cdfc;
+	color:#fff;
 }
 .form_set{width:60%;
 margin:0 auto;
 }
-
-#button-blue{
+@media screen and (min-device-width: 768px) and (max-device-width: 1800px) {
+.button-green{
+	display: block;
 	font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 	float:left;
 	width: 100%;
 	border: #fbfbfb solid 4px;
 	cursor:pointer;
-	background-color: #32CD32;
-	color:white;
+	background-color: #0089d1;
+	color:#FFF;
 	font-size:24px;
 	padding-top:22px;
 	padding-bottom:22px;
@@ -336,15 +337,18 @@ margin:0 auto;
   font-weight:700;
 }
 
-#button-blue:hover{
+.button-green:hover{
 	background-color: rgba(0,0,0,0);
-	color: #32CD32;
+	color: #0089d1;
 }
 	
 .submit:hover {
 	color: #3498db;
 }
-	
+.submit:hover .ease{
+  width:100%;
+  background-color:white;
+}	
 .ease {
 	width: 0px;
 	height: 74px;
@@ -355,11 +359,8 @@ margin:0 auto;
 	-ms-transition: .3s ease;
 	transition: .3s ease;
 }
-
-.submit:hover .ease{
-  width:100%;
-  background-color:white;
 }
+
 
 .img{
 width:40%;	
@@ -369,6 +370,11 @@ width:40%;
 	.ui-responsive{
 	width:80%;
 	}
+.logo{
+margin:10% 0 10% 0;
+width:40%;
+
+}
 	
 	.ui-dialog-contain {
 	width: 92.5%;
@@ -389,7 +395,7 @@ tr:nth-child(even) {
 .table_detail{
 	padding-left:2%;
 	font-size: 10px;}
-#footer{background: #32cd32;}
+#footer{background: #0089d1;}
 /*////  ของฮา จอใหญ่  /////*/
 .No{
 	float: left;
@@ -452,9 +458,14 @@ tr:nth-child(even) {
 	height: 100px;
 }
 
-/***************************/
+/******************************************************************************************************************************************************/
 @media (max-width: 768px) {
-/*////  ของฮา จอเล็ก /////*/
+	.logo{
+margin:10% 0 10% 0;
+width:70%;
+
+}
+
 h1.expert{
 	font-size:10px;
 	margin-top:15%;
@@ -467,6 +478,7 @@ text-align:center;
 .title_po{
 text-align:center;
  font-size: 16px;
+ -webkit-text-fill-color:#000;
 }
 
 
@@ -496,12 +508,13 @@ text-align:center;
 }
 
 .selest_expert{
-	background:32cd32;
+	background:0089d1;
 	width:50%;
 	font-size: 12px;
 	}
 .table_head{
 font-size: 12px;
+-webkit-text-fill-color:#000
 
 }
 .table_detail{
@@ -580,8 +593,6 @@ border: 1px solid red;
 	font-size: 8px;
 	font-family: tahoma;
 }
-
-/*////  ของฮา จอเล็ก /////*/
 .no_po{
 width:100%;  
 font-size: 10px;
@@ -592,7 +603,7 @@ font-size: 10px;
 	font-style: inherit;
 	float: right;
 	margin:13% 5% 0 0;
-	color: #000;
+	color: #ccc;
 
 }
 
@@ -609,7 +620,7 @@ font-size: 10px;
 
 #form-div {
 	background-color:rgba(99,99,99,0.1);
-	padding:10px 35px 10px 35px;
+	padding:40px 25px 40px 25px;
 	width: 75%;
 	margin:auto;
   -moz-border-radius: 7px;
@@ -637,7 +648,7 @@ font-size: 10px;
 .feedback-input:focus{
 	background: #fff;
 	box-shadow: 0;
-	border: 3px solid #32CD32;
+	border: 3px solid #0089d1;
 	color: #3498db;
 	outline: none;
   padding: 13px 13px 13px 54px;
@@ -683,15 +694,16 @@ input:hover, textarea:hover,
 input:focus, textarea:focus {
 	background-color:white;
 }
-
-#button-blue{
+/* ------------------------------------------------ button ---------------------------------- */
+.button-green{
+	display: block;
 	font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 	float:left;
 	width: 100%;
 	border: #fbfbfb solid 4px;
 	cursor:pointer;
-	background-color: #32CD32;
-	color:white;
+	background-color: #0089d1;
+	color:#FFF;
 	font-size:24px;
 	padding-top:22px;
 	padding-bottom:22px;
@@ -701,16 +713,10 @@ input:focus, textarea:focus {
   margin-top:-4px;
   font-weight:700;
 }
-
-#button-blue:hover{
+.button-green:hover{
 	background-color: rgba(0,0,0,0);
-	color: #32CD32;
-}
-	
-.submit:hover {
-	color: #3498db;
-}
-	
+	color: #0089d1;
+}	
 .ease {
 	width: 0px;
 	height: 74px;
@@ -721,11 +727,7 @@ input:focus, textarea:focus {
 	-ms-transition: .3s ease;
 	transition: .3s ease;
 }
-
-.submit:hover .ease{
-  width:100%;
-  background-color:white;
-}
+/* ------------------------------------------------ button ---------------------------------- */
 .img{
 	margin-top:5%;
 	width:70%;}
@@ -733,7 +735,7 @@ input:focus, textarea:focus {
 	float:right;
 	width: 30px;
 	height: 30px;
-	background:url(../images/change_user.png) no-repeat center 5%;
+	background:url(../images/change_user_b.png) no-repeat center 5%;
 	background-size:150%;
 	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
@@ -741,8 +743,8 @@ input:focus, textarea:focus {
 	
 	}
 	.header_right{
-		font-size:10px;
-margin:2% 2% 1% 1%;
+	font-size:10px;
+	margin:2% 2% 1% 1%;
 	
 	}
 #header{
@@ -751,15 +753,13 @@ margin:2% 2% 1% 1%;
 	height:70px;
 	position:fixed;
 	z-index: 9999;
-	background-color: #32CD32;
+	background-color: #0089d1;
 	color:#FFF;
 	top: 0;
 	left:0;
-	background:url(../images/header.png) no-repeat #32CD32 10px;
-	background-size:50%;
+	background:url(../images/logo_n.png) no-repeat #0089d1 10px;
+	background-size:40%;
 	background-position: center; 
-	
-
 }
 
 .ui-content{

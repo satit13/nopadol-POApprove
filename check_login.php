@@ -70,17 +70,20 @@ echo "<script>window.location='Po_all.php'</script>";
 	setcookie('levelID', "",time()+3600*24*356);
 	setcookie('expertTeam', "",time()+3600*24*356);
 	setcookie('status', "0",time()+3600*24*356); 
-	setcookie('loginstatus', "<script language='javascript'>alert('Login ไม่สำเร็จ กรุณาตรวจสอบ Username และ Password อีกครั้ง1')</script>",time()+3600);
+	setcookie('loginstatus', "<script language='javascript'>alert('Login ไม่สำเร็จ กรุณาตรวจสอบ Username และ Password อีกครั้ง')</script>",time()+3600);
+	echo "<script>window.location='index.php'</script>";
 	}else{
 	setcookie('userID', $_COOKIE['userID'],time()+3600*24*356);
 	setcookie('userName', $_COOKIE['userName'],time()+3600*24*356);
 	setcookie('levelID', $_COOKIE['levelID'],time()+3600*24*356);
 	setcookie('expertTeam', $_COOKIE['expertTeam'],time()+3600*24*356);
 	setcookie('status', "1",time()+3600*24*356); 
-	setcookie('loginstatus', "<script language='javascript'>alert('Login ไม่สำเร็จ กรุณาตรวจสอบ Username และ Password อีกครั้ง2')</script>",time()+3600);
-		
+	setcookie('loginstatus', "<script language='javascript'>alert('Login ไม่สำเร็จ กรุณาตรวจสอบ Username และ Password อีกครั้ง')</script>",time()+3600);
+	echo "<script>window.location='index.php'</script>";
 		}
-		echo "<script>window.location='index.php'</script>";
+	setcookie('loginstatus', "<script language='javascript'>alert('Login ไม่สำเร็จ กรุณาตรวจสอบ Username และ Password อีกครั้ง')</script>",time()+3600);
+	echo "<script>window.location='index.php'</script>";
+		
 }
 
 

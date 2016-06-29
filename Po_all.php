@@ -26,6 +26,7 @@ else{
 <head>
 <title>Approve PO</title> 
 <meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="js/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
@@ -181,9 +182,6 @@ require('require/connect_apiExpertteam.php');
    window.location="Po_all.php?cate="+cate.value;
 
   }
-
-  
-
 </script>
 <table border="0" style="padding: 0; margin: 0 auto;" width="50%"><tr>
   <form action="<?php echo "Po_all.php?cate=".trim($cate); ?>">        
@@ -244,7 +242,7 @@ $cnt=count($result);
         "<div class='Price'>".number_format($sort['poAmount'][$i], 2, '.', ',')."&nbsp;</div>
 
         </td>
-         <td width='10%' text-align='left'><div class='icon'><a href='#pagetwo".$sort['poNo'][$i]."' data-transition='slide'><img src='images/icon2.png' width='100%'></a></div></td>
+         <td width='10%' text-align='left'><div class='icon'><a href='#pagetwo".$sort['poNo'][$i]."' data-transition='slide'><img src='images/icon_b.png' width='100%'></a></div></td>
         </tr></table>";
     echo"</div>";
     }
@@ -331,7 +329,7 @@ else{$no="";}
        
        for($f=0;$f<$Dcnt;$f++){
 
-        echo "<tr style='border-bottom:1px dashed green; padding-top:5%;'>
+        echo "<tr style='color:#000;border-bottom:1px dashed green; padding-top:5%;'>
         <td>".$deSort['itemCode'][$f]."</td><td>".$deSort['itemName'][$f]."</td>
         <td>".$deSort['qty'][$f]."&nbsp;&nbsp;".$deSort['unitCode'][$f]."</td>
         <td>".number_format($deSort['price'][$f],2)."</td>

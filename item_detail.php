@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="js/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<title>Approve PO</title> 
+
 
 <script>
   /*$(window).load(function() { // makes sure the whole site is loaded
@@ -177,17 +178,11 @@ echo "<table class='ui-responsive'>";
         echo "<tr><td width='40%' style='text-align:right;'><b>Approve QTY</b></td><td>".number_format($listsort['approveQty'][0])."  ".$listsort['defBuyUnit'][0]."</td></tr>";
         echo "<tr><td width='40%' style='text-align:right;'><b>เกรด</b></td><td>".$listsort['grade'][0]."</td></tr>";
         echo "<tr><td width='40%' style='text-align:right;'><b>คงเหลือ S1</b></td><td>";
-        echo '<script>
-                  $(document).ready(function(){
-                      $("#ts1").click(function(){
-                          $("#s1").slideToggle("slow");
-                      });
-                      $("#ts2").click(function(){
-                          $("#s2").slideToggle("slow");
-                      });
-                  });
-                </script>';
-        echo "<a href='#' id='ts1'><b><font color='red'>".number_format($listsort['s01RemainQty'][0])."</font></b></a><div id='s1' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
+        echo "<a href='#' id='ts1' s01='".$listsort['s01RemainQty'][0]."'><b><font color='red'>".number_format($listsort['s01RemainQty'][0])."";
+        if($listsort['s01RemainQty'][0]!=0){
+        echo " <img src='images/add-icon.png' width='12'>";
+        }
+        echo "</font></b></a><div id='s1' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
         $s01wh = $listsort['s01WH'][0];
         $s02wh = $listsort['s02WH'][0];
           $s01 = array();
@@ -211,7 +206,11 @@ echo "<table class='ui-responsive'>";
         }
         echo "</table></div></td></tr>
         <tr><td width='40%' style='text-align:right;'><b>คงเหลือ S2</b></td>";
-        echo "<td><a href='#' id='ts2'><b><font color='red'>".number_format($listsort['s02RemainQty'][0])."</font></b></a><div id='s2' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
+        echo "<td><a href='#' id='ts2' s02='".$listsort['s02RemainQty'][0]."'><b><font color='red'>".number_format($listsort['s02RemainQty'][0])."";
+        if($listsort['s02RemainQty'][0]!=0){
+        echo " <img src='images/add-icon.png' width='12'>";
+        }
+        echo"</font></b></a><div id='s2' style='display:none;'><hr><table><tr style='background-color:#9f9f9f;'><th>คลัง</th><th>คงเหลือ</th></tr>";
           $s02 = array();
         
         //$Dcnt=0;
@@ -251,6 +250,25 @@ echo "<table class='ui-responsive'>";
   </div>
 </div>
 
+<script>
+  
+                  
+        $(document).ready(function(){
+          var s01 = document.getElementById("ts1").getAttribute("s01");
+          var s02 = document.getElementById("ts2").getAttribute("s02");
+
+        if(s01!=0){
+        $("#ts1").click(function(){
+        $("#s1").slideToggle("slow");
+        });
+        }
+        if(s02!=0){
+         $("#ts2").click(function(){
+         $("#s2").slideToggle("slow");
+         });
+       }
+        });
+</script>
 </body>
 </html>
 

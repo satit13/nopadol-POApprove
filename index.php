@@ -15,10 +15,18 @@ if(isset($_COOKIE['userName'])){
 <!DOCTYPE html>
 <head>
 	<title>Approve PO</title> 
-    <meta name="viewport" content="width=device-width,maximum-scale=1.0" />
+  <!--<meta name="viewport" content="width=device-width,maximum-scale=1.0" />
 	<link rel="stylesheet" href="css/style.css" />
 	<meta http-equiv=Content-Type content="text/html; charset=utf-8">
-
+-->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width,maximum-scale=1.0" /> 
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/style.css" /> 
+  <meta charset="utf-8">
 <script>
 function cnklogin(){
 if(document.forms["login"]["username"].value== "" || document.forms["login"]["username"].value == null){
@@ -40,7 +48,13 @@ function logout(){
 </script>
 </head>
 <body>
-<?php if(empty($_COOKIE['userName']) || $_COOKIE['status']==0){
+<?php
+if(isset($_COOKIE['loginstatus'])){
+              echo $_COOKIE['loginstatus'];
+              setcookie('loginstatus', "0",time()- 3600);}
+
+
+ if(empty($_COOKIE['userName']) || $_COOKIE['status']==0){
 echo '<div id="header"></div>';
 ?>
   
@@ -63,7 +77,7 @@ echo '<div id="header"></div>';
 <div id="form-main">
 
   <div id="form-div">
-  <img src="images/approve-icon1.png" class="img ">
+  <img src="images/PO-approve.png" class="logo">
     <form class="form" name="login" method='POST' id="theForm" action="check_login.php" onSubmit="return cnklogin()">
       
       <p class="username">
@@ -77,7 +91,7 @@ echo '<div id="header"></div>';
       
       
       <div class="submit">
-        <input type="submit" value="Login" id="button-blue"/>
+        <input type="submit" value="Login" class="button-green"/>
         <div class="ease"></div>
       </div>
     </form>
@@ -96,7 +110,7 @@ echo '<div class="head_rightlogo"><a href="logout.php"><div class="head_right"><
 	echo '<div id="form-main">
 
   <div id="form-div">
-  <img src="images/approve-icon1.png".png" class="img">
+  <img src="images/PO-approve.png".png" class="logo">
     <form class="form" name="login2" method="POST" id="theForm" action="check_login.php" onSubmit="return cnklogin()">
       <br><br>
       
@@ -105,11 +119,10 @@ echo '<div class="head_rightlogo"><a href="logout.php"><div class="head_right"><
       </p>
       
       <div class="submit">
-        <input type="submit" value="Login" id="button-blue"/>
+        <input type="submit" value="Login" class="button-green"/>
         <div class="ease"></div>
       </div>
     </form>
-    <br><br><br><br><br>
   </div>';
 
   }
